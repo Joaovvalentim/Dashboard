@@ -16,7 +16,6 @@ const getPriceCoinbase = () => {
 
 const fetchData = async () => {
     const [priceBitcoinTrade, priceCoinbase] = await Promise.all([getPriceBitcoinTrade(), getPriceCoinbase(),])
-    console.log(priceBitcoinTrade, priceCoinbase)
 
     return {
         usd: priceCoinbase,
