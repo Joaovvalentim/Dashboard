@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
 
+
     const result = await Promise.all([
         BitcoinService.fetchData(),
         BovespaServices.fetchData(),

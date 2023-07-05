@@ -10,29 +10,35 @@ const parser = new Parser({
 });
 
 const parseVolumeToInt = volume => {
-  let vol = volume.replace('+', '');
-  vol = vol.replace(/\,/g, '');
-  return Number.parseInt(vol, 10);
-};
 
-const sortVolume = (a, b) => b.volume - a.volume;
+  let vol = volume.replace('+', '')
+  vol = vol.replace(/\,/g, '')
+  return Number.parseInt(vol, 10)
+}
 
-const getGoogleTrends = async geo => {
-  const url = `${API_URL}${geo}`;
-  const trends = await parser.parseURL(url);
+const sortVolume = (a, b) => b.volume - a.volume
+
+export const getGoogleTrends = async (geo) => {
+  const url = `${API_URL}${geo}`
+  const trends = await parser.parseURL(url)
   const items = trends.items.map(item => {
-    const { title: name, volume } = item;
-    return { name, volume: parseVolumeToInt(volume) };
-  });
-  return items;
-};
+    const { title: name, volume } = item
+    return { name, volume: parseVolumeToInt(volume) }
+  })
+
+  return items
+}
 
 const fetchData = async (limit = 10) => {
-  const [us, br] = await Promise.all([getGoogleTrends('US'), getGoogleTrends('BR')]);
-  const items = [...us, ...br];
-  const sorted = items.sort(sortVolume);
-  const limited = sorted.slice(0, limit);
-  return limited;
-};
+  const [us, br] = await Promise.all([
+    getGoogleTrends('US'),
+    getGoogleTrends('BR')
+  ])
 
-export default { fetchData };
+  const items = [...us, ...br]
+  const sorted = items.sort(sortVolume)// função para ordenar os valores
+  const limited = sorted.slice(0, limit)
+
+  return limited;
+}
+export default { fetchData }
