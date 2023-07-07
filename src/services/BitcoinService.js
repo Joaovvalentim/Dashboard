@@ -7,7 +7,7 @@ const bitcoinTradeURL = "https://api.bitcointrade.com.br/v3/public/BRLBTC/ticker
 
 const getPriceBitcoinTrade = () => {
     const dataResovler = (response) => {
-        if(response && response.data && response.last)return format(response.data.last, SYMBOL_BRL)
+        if(response && response.data && response.data.last)return format(response.data.last, SYMBOL_BRL)
         return format(0, SYMBOL_BRL)
         
     }
@@ -15,7 +15,7 @@ const getPriceBitcoinTrade = () => {
 }
 const getPriceCoinbase = () => {
     const dataResovler = (response) => {
-        if(response && response.data && response.last)return format(response.data.amount, SYMBOL_USD)
+        if(response && response.data && response.data.amount)return format(response.data.amount, SYMBOL_USD)
         return format(0, SYMBOL_USD)
     }
     return doGetRequest(coinbaseURL, {}, dataResovler)
