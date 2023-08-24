@@ -14,14 +14,15 @@ const getPrice = async code => {
     const url = `${API_URL}${code}?token=4W2JRvyjDqRCe4miXnhgpL`;
     // Resolver para formatar o preço da ação
     try {
-      const interval = setInterval(() => {
+       const dados = setInterval(() => {
         const resolver = data =>  format(data.results[0].regularMarketPrice, SYMBOL_BRL);
       }, 5000);
+      console.log(resolver)
       const price = await doGetRequest(url, {}, resolver);
       return { code, price };
   } catch (error) {
       console.error(`Erro ao obter preço da ação ${code}:`, error);
-      return { code, price: 0 }; // Retorna preço como 0 em caso de erro
+      return { code, price: 'Api Error'}; // Retorna preço como 0 em caso de erro
   }
 };
 
