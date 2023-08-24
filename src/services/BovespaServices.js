@@ -13,11 +13,16 @@ const getPrice = async code => {
     // Monta a URL completa para obter a cotação da ação específica
     const url = `${API_URL}${code}?token=4W2JRvyjDqRCe4miXnhgpL`;
     // Resolver para formatar o preço da ação
-    const resolver = data => format(data.results[0].regularMarketPrice, SYMBOL_BRL);
-    // Faz uma requisição GET à URL usando a função doGetRequest com o resolver
-    const price = await doGetRequest(url, {}, resolver);
-    // Retorna um objeto com o código da ação e o preço formatado
-    return { code, price };
+    try {
+      const interval = setInterval(() => {
+        const resolver = data =>  format(data.results[0].regularMarketPrice, SYMBOL_BRL);
+      }, 5000);
+      const price = await doGetRequest(url, {}, resolver);
+      return { code, price };
+  } catch (error) {
+      console.error(`Erro ao obter preço da ação ${code}:`, error);
+      return { code, price: 0 }; // Retorna preço como 0 em caso de erro
+  }
 };
 
 // Função assíncrona para buscar os preços de várias ações da Bovespa
